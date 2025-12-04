@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descargador de YouTube</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+   background: rgb(34, 34, 34);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: rgb(34, 34, 34);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            background: #313131;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+         
+        }
+
+  
+
+      
+        .mensaje {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            white-space: pre-line;
+            text-align: left;
+        }
+
+        .mensaje.exito {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .mensaje.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #bbbbbb;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>downlaod video</h1>
+        <input 
+            type="text" 
+            id="urlInput" 
+            placeholder="Pega aquí la URL del video de YouTube"
+        >
+        <button id="btnDescargar" onclick="descargarVideo()">
+            Descargar Video
+        </button>
+        <div class="loader" id="loader"></div>
+        <div class="mensaje" id="mensaje"></div>
+    </div>
+
+    <script>
+        async function descargarVideo() {
+            const url = document.getElementById('urlInput').value.trim();
+            const mensaje = document.getElementById('mensaje');
+            const loader = document.getElementById('loader');
+            const btnDescargar = document.getElementById('btnDescargar');
+
+ 
+            mensaje.className = 'mensaje';
+            mensaje.style.display = 'none';
+
+      
+            if (!url) {
+                mostrarMensaje('Por favor, ingresa una URL', 'error');
+                return;
+            }
+
+            if (!url.includes('youtube.com') && !url.includes('youtu.be')) {
+                mostrarMensaje('Por favor, ingresa una URL válida de YouTube', 'error');
+                return;
+            }
+
+       
+            loader.style.display = 'block';
+            btnDescargar.disabled = true;
+            btnDescargar.textContent = 'Descargando...';
+
+            try {
+           
+                const resultado = await window.pywebview.api.descargar_video_youtube(url);
+
+                if (resultado.success) {
+                    mostrarMensaje(resultado.message, 'exito');
+                    document.getElementById('urlInput').value = '';
+                } else {
+                    mostrarMensaje(resultado.message, 'error');
+                }
+            } catch (error) {
+                mostrarMensaje('Error de conexión: ' + error, 'error');
+            } finally {
+               
+                loader.style.display = 'none';
+                btnDescargar.disabled = false;
+                btnDescargar.textContent = 'Descargar Video';
+            }
+        }
+
+        function mostrarMensaje(texto, tipo) {
+            const mensaje = document.getElementById('mensaje');
+            mensaje.textContent = texto;
+            mensaje.className = `mensaje ${tipo}`;
+            mensaje.style.display = 'block';
+        }
+
+       
+        document.getElementById('urlInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                descargarVideo();
+            }
+        });
+    </script>
+</body>
+</html>
