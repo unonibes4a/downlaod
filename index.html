@@ -14,21 +14,21 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #000000;
-            color: #1b7bcaaf;
+            background-color: #181818;
+            color: #187acaab;
             min-height: 100vh;
             padding: 20px;
 
             display: flex;
-            flex-direction: row;
-            flex-wrap: nowrap;
-            justify-content: center;
-            align-items: center;
-            align-content: center;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
         }
 
         .container {
-            background: #252525;
+            background: #1d1d1d;
             border-radius: 20px;
             padding: 40px;
             max-width: 800px;
@@ -37,17 +37,17 @@
         }
 
         h1 {
-            color: #1b7bcaaf;
+            color: #187acaab;
             margin-bottom: 10px;
             text-align: center;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .tabs {
             display: flex;
             gap: 10px;
             margin-bottom: 30px;
-            border-bottom: 2px solid #404040;
+            border-bottom: 2px solid #515151;
         }
 
         .tab {
@@ -55,20 +55,16 @@
             cursor: pointer;
             border: none;
             background: none;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
-            color: #a0a0a0;
+            color: #187acaab;
             border-bottom: 3px solid transparent;
             transition: all 0.3s;
         }
 
         .tab.active {
-            color: #1b7bcaaf;
-            border-bottom-color: #666666;
-        }
-
-        .tab:hover {
-            color: #1b7bcaaf;
+            color: #187acaab;
+            border-bottom-color: #187acaab;
         }
 
         .tab-content {
@@ -86,35 +82,40 @@
         label {
             display: block;
             margin-bottom: 8px;
-            color: #cccccc;
+            color: #ddd;
             font-weight: 600;
         }
 
         input[type="text"] {
             width: 100%;
             padding: 12px;
-            border: 2px solid #404040;
+            background-color: #313131;
+            color: #187acaab;
+            border: 2px solid #515151;
             border-radius: 8px;
-            font-size: 12px;
-            background: #1a1a1a;
-            color: #1b7bcaaf;
+            font-size: 13px;
             transition: border-color 0.3s;
         }
 
         input[type="text"]:focus {
             outline: none;
-            border-color: #666666;
+            border-color: #187acaab;
         }
 
         select {
             width: 100%;
             padding: 12px;
-            border: 2px solid #404040;
+            background-color: #313131;
+            color: #187acaab;
+            border: 2px solid #515151;
             border-radius: 8px;
-            font-size: 12px;
-            background: #1a1a1a;
-            color: #1b7bcaaf;
+            font-size: 13px;
             cursor: pointer;
+        }
+
+        select option {
+            background-color: #313131;
+            color: #187acaab;
         }
 
         .checkbox-group {
@@ -128,6 +129,7 @@
             width: 20px;
             height: 20px;
             cursor: pointer;
+            accent-color: #313131;
         }
 
         .button-group {
@@ -141,50 +143,48 @@
             padding: 14px;
             border: none;
             border-radius: 8px;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
         }
 
         .btn-primary {
-            background: #505050;
-            color: white;
+            background: #313131;
+            color: #187acaab;
+            border: 2px solid #515151;
         }
 
         .btn-primary:hover {
-            background: #606060;
+            background: #515151;
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
         }
 
         .btn-danger {
-            background-color: #313131;
-            color: white;
+            background: #2c2c2c;
+            color: #187acaab;
+
         }
 
-        .btn-danger:hover {
-            background-color: #535353;
-        }
+
 
         .btn-success {
-            background-color: #313131;
-            color: white;
+            background: #2e2e2e;
+            color: #187acaab;
+
         }
 
-        .btn-success:hover {
-            background-color: #5e5e5e;
-        }
+        .btn-success:hover {}
 
         .recording-indicator {
             display: none;
             padding: 15px;
-            background: #333333;
-            border: 2px solid #666666;
+            background: #414141;
+            border: 2px solid #187acaab;
             border-radius: 8px;
             margin-bottom: 20px;
             text-align: center;
-            color: #1b7bcaaf;
             animation: pulse 1.5s infinite;
         }
 
@@ -208,9 +208,7 @@
             display: inline-block;
             width: 12px;
             height: 12px;
-
-            background-color: #313131;
-
+            background: #353535;
             border-radius: 50%;
             margin-right: 8px;
             animation: blink 1s infinite;
@@ -234,17 +232,18 @@
             border-radius: 8px;
             text-align: center;
             display: none;
-            color: #1b7bcaaf;
         }
 
         .message.success {
-            background: #2d5a2d;
-            border: 1px solid #3a6b3a;
+            background: #333333;
+            color: #187acaab;
+
         }
 
         .message.error {
-            background: #5a2d2d;
-            border: 1px solid #6b3a3a;
+            background: #313131;
+            color: #187acaab;
+
         }
 
         .message.show {
@@ -255,9 +254,9 @@
             position: fixed;
             top: 20px;
             left: 20px;
-            background: #252525;
-            color: #1b7bcaaf;
-            border: 2px solid #666666;
+            background: #414141;
+            color: #187acaab;
+            border: 2px solid #187acaab;
             padding: 10px 20px;
             border-radius: 8px;
             cursor: pointer;
@@ -266,8 +265,8 @@
         }
 
         .back-button:hover {
-            background: #404040;
-            color: #1b7bcaaf;
+            background: #187acaab;
+            color: #414141;
         }
 
         .recorder-controls {
@@ -277,30 +276,41 @@
         }
 
         .recorder-item {
-            background: #1a1a1a;
+            background: #313131;
             padding: 20px;
             border-radius: 12px;
-            border: 2px solid #404040;
-            color: #1b7bcaaf;
+            border: 2px solid #515151;
         }
 
         .recorder-item h3 {
             margin-bottom: 15px;
-            color: #1b7bcaaf;
+            color: #187acaab;
         }
 
-        .recorder-item p {
-            color: #a0a0a0;
+        /* Añado estilos para scrollbar para mantener coherencia */
+        ::-webkit-scrollbar {
+            width: 10px;
         }
 
-        option {
-            background: #1a1a1a;
-            color: #1b7bcaaf;
+        ::-webkit-scrollbar-track {
+            background: #313131;
         }
 
-        /* Estilo para el checkbox */
-        input[type="checkbox"] {
-            accent-color: #666666;
+        ::-webkit-scrollbar-thumb {
+            background: #515151;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #616161;
+        }
+
+        button{
+            border-radius: 12px;
+
+        }
+        button:hover{
+            background-color: #181818;
         }
     </style>
 </head>
@@ -309,25 +319,23 @@
     <button class="back-button" onclick="goBack()">← Return to Menu</button>
 
     <div class="container">
-        <h1> multimedia </h1>
 
         <div class="tabs">
-            <button class="tab active" onclick="switchTab('youtube')"> YouT </button>
+            <button class="tab active" onclick="switchTab('youtube')"> YouT</button>
             <button class="tab" onclick="switchTab('audio')"> Record Audio</button>
-            <button class="tab" onclick="switchTab('screen')">Record Screen</button>
+            <button class="tab" onclick="switchTab('screen')"> Record Screen</button>
         </div>
 
         <!-- TAB: YouTube -->
         <div class="tab-content active" id="youtube">
             <div class="input-group">
-                <label for="videoUrl">YouT  Video URL:</label>
+                <label for="videoUrl">YouTube Video URL:</label>
                 <input type="text" id="videoUrl" placeholder="https://www.youtube.com/watch?v=...">
             </div>
 
             <div class="checkbox-group">
                 <input type="checkbox" id="downloadPlaylist">
-                <label for="downloadPlaylist" style="margin: 0; color: #cccccc;">Download the entire playlist (if it is
-                    a list)</label>
+                <label for="downloadPlaylist" style="margin: 0;">Download the entire playlist (if it is a list)</label>
             </div>
 
             <div class="input-group">
@@ -348,29 +356,28 @@
             <div class="message" id="youtubeMessage"></div>
         </div>
 
-    
+        <!-- TAB: Record Audio -->
         <div class="tab-content" id="audio">
             <div class="recording-indicator" id="audioRecordingIndicator">
                 <span class="recording-dot"></span>
-                <strong Recording system audio...</strong>
+                <strong> Recording system audio...</strong>
             </div>
 
             <div class="recorder-item">
-                <h3> Record System Audio (MP3)</h3>
-                <p style="margin-bottom: 15px;">
-                    Save system audio (Sound your computer plays).
-
-
+                <h3> </h3>
+                <p style="color: #666; margin-bottom: 15px;">
+                    save audio system
                 </p>
                 <div class="button-group">
-                    <button class="btn-success" onclick="startAudioRecording()">▶ Start Recording</button>
-                    <button class="btn-danger" onclick="stopAudioRecording()">⏹ Stop and Save</button>
+                    <button class="btn-success" onclick="startAudioRecording()"> init save</button>
+                    <button class="btn-danger" onclick="stopAudioRecording()"> stop save</button>
                 </div>
             </div>
 
             <div class="message" id="audioMessage"></div>
         </div>
- 
+
+
         <div class="tab-content" id="screen">
             <div class="recording-indicator" id="screenRecordingIndicator">
                 <span class="recording-dot"></span>
@@ -378,13 +385,13 @@
             </div>
 
             <div class="recorder-item">
-                <h3> Record Screen (MP4)</h3>
-                <p style="margin-bottom: 15px;">
+                <h3> Record Screen (MP4) </h3>
+                <p style="color: #666; margin-bottom: 15px;">
                     Record everything that happens on your screen in MP4 video.
                 </p>
                 <div class="button-group">
-                    <button class="btn-success" onclick="startScreenRecording()">▶ Start Recording</button>
-                    <button class="btn-danger" onclick="stopScreenRecording()">⏹ Stop and Save</button>
+                    <button class="btn-success" onclick="startScreenRecording()"> Start Recording</button>
+                    <button class="btn-danger" onclick="stopScreenRecording()"> Stop and Save</button>
                 </div>
             </div>
 
@@ -393,10 +400,8 @@
     </div>
 
     <script>
-
-
         function switchTab(tabName) {
-         
+            // Ocultar todos los tabs
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
@@ -404,7 +409,7 @@
                 tab.classList.remove('active');
             });
 
-   cionado
+            // Mostrar tab seleccionado
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
         }
@@ -418,7 +423,7 @@
             }, 5000);
         }
 
- 
+        // === YOUTUBE ===
         async function downloadVideo() {
             const url = document.getElementById('videoUrl').value.trim();
             const quality = document.getElementById('quality').value;
@@ -429,7 +434,7 @@
                 return;
             }
 
-            showMessage('youtubeMessage', ' Descargando...', 'success');
+            showMessage('youtubeMessage', '⏳ Descargando...', 'success');
 
             try {
                 const result = await pywebview.api.download_youtube_video(url, quality, downloadPlaylist);
@@ -445,7 +450,7 @@
             }
         }
 
- 
+        // === AUDIO RECORDING ===
         async function startAudioRecording() {
             try {
                 const result = await pywebview.api.start_audio_recording();
@@ -471,7 +476,7 @@
                 if (result.success) {
                     showMessage('audioMessage', ` ${result.message}`, 'success');
                 } else {
-                    showMessage('audioMessage', '' + result.error, 'error');
+                    showMessage('audioMessage', ' ' + result.error, 'error');
                 }
             } catch (error) {
                 showMessage('audioMessage', ' Error al detener grabación', 'error');
@@ -479,7 +484,7 @@
             }
         }
 
- 
+        // === SCREEN RECORDING ===
         async function startScreenRecording() {
             try {
                 const result = await pywebview.api.start_screen_recording();
@@ -508,7 +513,7 @@
                     showMessage('screenMessage', ' ' + result.error, 'error');
                 }
             } catch (error) {
-                showMessage('screenMessage', ' Error al detener grabación', 'error');
+                showMessage('screenMessage', 'Error al detener grabación', 'error');
                 console.error(error);
             }
         }
@@ -517,7 +522,7 @@
             pywebview.api.go_back_to_menu();
         }
 
-      
+        // Enter para descargar
         document.getElementById('videoUrl').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 downloadVideo();
