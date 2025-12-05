@@ -7,8 +7,8 @@
     <title>Descargador YouTube + Grabador</title>
     <style>
         * {
-            margin: 0;
-            padding: 0;
+            margin: 4px 4px 4px 4px;
+            padding: 2px 2px 2px 2px;
             box-sizing: border-box;
         }
 
@@ -20,11 +20,11 @@
             padding: 20px;
 
             display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: center;
-	align-items: center;
-	align-content: center;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
         }
 
         .container {
@@ -142,7 +142,7 @@
             flex: 1;
             padding: 14px;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
@@ -164,18 +164,16 @@
         .btn-danger {
             background: #2c2c2c;
             color: #187acaab;
-
         }
-
-
 
         .btn-success {
             background: #2e2e2e;
             color: #187acaab;
-
         }
 
-        .btn-success:hover {}
+        button:hover {
+            background-color: #181818;
+        }
 
         .recording-indicator {
             display: none;
@@ -193,15 +191,8 @@
         }
 
         @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.7;
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
         .recording-indicator .recording-dot {
@@ -215,15 +206,8 @@
         }
 
         @keyframes blink {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0;
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
         .message {
@@ -237,13 +221,11 @@
         .message.success {
             background: #333333;
             color: #187acaab;
-
         }
 
         .message.error {
             background: #313131;
             color: #187acaab;
-
         }
 
         .message.show {
@@ -287,7 +269,6 @@
             color: #187acaab;
         }
 
-        /* Añado estilos para scrollbar para mantener coherencia */
         ::-webkit-scrollbar {
             width: 10px;
         }
@@ -305,12 +286,9 @@
             background: #616161;
         }
 
-        button{
-            border-radius: 12px;
-
-        }
-        button:hover{
-            background-color: #181818;
+        h2 {
+            color: #187acaab;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -319,11 +297,13 @@
     <button class="back-button" onclick="goBack()">← Return to Menu</button>
 
     <div class="container">
+        <h2>This page is free of fascism; nobody is spying on you or controlling your data.</h2>
+        <br>
 
         <div class="tabs">
-            <button class="tab active" onclick="switchTab('youtube')"> YouT</button>
-            <button class="tab" onclick="switchTab('audio')"> Record Audio</button>
-            <button class="tab" onclick="switchTab('screen')"> Record Screen</button>
+            <button class="tab active" onclick="switchTab('youtube')">YouT</button>
+            <button class="tab" onclick="switchTab('audio')">Record Audio</button>
+            <button class="tab" onclick="switchTab('screen')">Record Screen</button>
         </div>
 
         <!-- TAB: YouTube -->
@@ -360,38 +340,40 @@
         <div class="tab-content" id="audio">
             <div class="recording-indicator" id="audioRecordingIndicator">
                 <span class="recording-dot"></span>
-                <strong> Recording system audio...</strong>
+                <strong>Recording system audio...</strong>
             </div>
 
             <div class="recorder-item">
-                <h3> </h3>
+                <h3></h3>
                 <p style="color: #666; margin-bottom: 15px;">
                     save audio system
                 </p>
                 <div class="button-group">
-                    <button class="btn-success" onclick="startAudioRecording()"> init save</button>
-                    <button class="btn-danger" onclick="stopAudioRecording()"> stop save</button>
+                    <button class="btn-success" onclick="startAudioRecording()">▶️ init save</button>
+                    <button class="btn-primary" onclick="pauseAudioRecording()" id="pauseAudioBtn">⏸️ Pause</button>
+                    <button class="btn-danger" onclick="stopAudioRecording()">⏹️ stop save</button>
                 </div>
             </div>
 
             <div class="message" id="audioMessage"></div>
         </div>
 
-
+        <!-- TAB: Record Screen -->
         <div class="tab-content" id="screen">
             <div class="recording-indicator" id="screenRecordingIndicator">
                 <span class="recording-dot"></span>
-                <strong> Recording screen...</strong>
+                <strong>Recording screen...</strong>
             </div>
 
             <div class="recorder-item">
-                <h3> Record Screen (MP4) </h3>
+                <h3>Record Screen (MP4)</h3>
                 <p style="color: #666; margin-bottom: 15px;">
                     Record everything that happens on your screen in MP4 video.
                 </p>
                 <div class="button-group">
-                    <button class="btn-success" onclick="startScreenRecording()"> Start Recording</button>
-                    <button class="btn-danger" onclick="stopScreenRecording()"> Stop and Save</button>
+                    <button class="btn-success" onclick="startScreenRecording()">▶️ Start Recording</button>
+                    <button class="btn-primary" onclick="pauseScreenRecording()" id="pauseScreenBtn">⏸️ Pause</button>
+                    <button class="btn-danger" onclick="stopScreenRecording()">⏹️ Stop and Save</button>
                 </div>
             </div>
 
@@ -401,7 +383,6 @@
 
     <script>
         function switchTab(tabName) {
-            // Ocultar todos los tabs
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
@@ -409,7 +390,6 @@
                 tab.classList.remove('active');
             });
 
-            // Mostrar tab seleccionado
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
         }
@@ -440,12 +420,12 @@
                 const result = await pywebview.api.download_youtube_video(url, quality, downloadPlaylist);
 
                 if (result.success) {
-                    showMessage('youtubeMessage', ` ${result.message}`, 'success');
+                    showMessage('youtubeMessage', `${result.message}`, 'success');
                 } else {
-                    showMessage('youtubeMessage', ' Error: ' + result.error, 'error');
+                    showMessage('youtubeMessage', 'Error: ' + result.error, 'error');
                 }
             } catch (error) {
-                showMessage('youtubeMessage', ' Error al descargar el video', 'error');
+                showMessage('youtubeMessage', 'Error al descargar el video', 'error');
                 console.error(error);
             }
         }
@@ -457,12 +437,34 @@
 
                 if (result.success) {
                     document.getElementById('audioRecordingIndicator').classList.add('show');
-                    showMessage('audioMessage', ' Grabación de audio iniciada', 'success');
+                    document.getElementById('pauseAudioBtn').textContent = '⏸️ Pause';
+                    showMessage('audioMessage', 'Grabación de audio iniciada', 'success');
                 } else {
-                    showMessage('audioMessage', ' ' + result.error, 'error');
+                    showMessage('audioMessage', result.error, 'error');
                 }
             } catch (error) {
-                showMessage('audioMessage', ' Error al iniciar grabación', 'error');
+                showMessage('audioMessage', 'Error al iniciar grabación', 'error');
+                console.error(error);
+            }
+        }
+
+        async function pauseAudioRecording() {
+            try {
+                const result = await pywebview.api.pause_audio_recording();
+
+                if (result.success) {
+                    if (result.paused) {
+                        document.getElementById('pauseAudioBtn').textContent = '▶️ Resume';
+                        showMessage('audioMessage', '⏸️ Grabación pausada', 'success');
+                    } else {
+                        document.getElementById('pauseAudioBtn').textContent = '⏸️ Pause';
+                        showMessage('audioMessage', '▶️ Grabación reanudada', 'success');
+                    }
+                } else {
+                    showMessage('audioMessage', result.error, 'error');
+                }
+            } catch (error) {
+                showMessage('audioMessage', 'Error al pausar grabación', 'error');
                 console.error(error);
             }
         }
@@ -472,14 +474,15 @@
                 const result = await pywebview.api.stop_audio_recording();
 
                 document.getElementById('audioRecordingIndicator').classList.remove('show');
+                document.getElementById('pauseAudioBtn').textContent = '⏸️ Pause';
 
                 if (result.success) {
-                    showMessage('audioMessage', ` ${result.message}`, 'success');
+                    showMessage('audioMessage', `${result.message}`, 'success');
                 } else {
-                    showMessage('audioMessage', ' ' + result.error, 'error');
+                    showMessage('audioMessage', result.error, 'error');
                 }
             } catch (error) {
-                showMessage('audioMessage', ' Error al detener grabación', 'error');
+                showMessage('audioMessage', 'Error al detener grabación', 'error');
                 console.error(error);
             }
         }
@@ -491,12 +494,34 @@
 
                 if (result.success) {
                     document.getElementById('screenRecordingIndicator').classList.add('show');
-                    showMessage('screenMessage', ' Grabación de pantalla iniciada', 'success');
+                    document.getElementById('pauseScreenBtn').textContent = '⏸️ Pause';
+                    showMessage('screenMessage', 'Grabación de pantalla iniciada', 'success');
                 } else {
-                    showMessage('screenMessage', ' ' + result.error, 'error');
+                    showMessage('screenMessage', result.error, 'error');
                 }
             } catch (error) {
-                showMessage('screenMessage', ' Error al iniciar grabación', 'error');
+                showMessage('screenMessage', 'Error al iniciar grabación', 'error');
+                console.error(error);
+            }
+        }
+
+        async function pauseScreenRecording() {
+            try {
+                const result = await pywebview.api.pause_screen_recording();
+
+                if (result.success) {
+                    if (result.paused) {
+                        document.getElementById('pauseScreenBtn').textContent = '▶️ Resume';
+                        showMessage('screenMessage', '⏸️ Grabación pausada', 'success');
+                    } else {
+                        document.getElementById('pauseScreenBtn').textContent = '⏸️ Pause';
+                        showMessage('screenMessage', '▶️ Grabación reanudada', 'success');
+                    }
+                } else {
+                    showMessage('screenMessage', result.error, 'error');
+                }
+            } catch (error) {
+                showMessage('screenMessage', 'Error al pausar grabación', 'error');
                 console.error(error);
             }
         }
@@ -506,11 +531,12 @@
                 const result = await pywebview.api.stop_screen_recording();
 
                 document.getElementById('screenRecordingIndicator').classList.remove('show');
+                document.getElementById('pauseScreenBtn').textContent = '⏸️ Pause';
 
                 if (result.success) {
-                    showMessage('screenMessage', ' Grabación guardada exitosamente', 'success');
+                    showMessage('screenMessage', 'Grabación guardada exitosamente', 'success');
                 } else {
-                    showMessage('screenMessage', ' ' + result.error, 'error');
+                    showMessage('screenMessage', result.error, 'error');
                 }
             } catch (error) {
                 showMessage('screenMessage', 'Error al detener grabación', 'error');
