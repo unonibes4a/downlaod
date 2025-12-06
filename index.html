@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giovanni Tools</title>
     <style>
+        /* (Tu CSS sin cambios) */
         * {
             margin: 4px 4px 4px 4px;
             padding: 2px 2px 2px 2px;
@@ -377,7 +378,19 @@
         </div>
     </div>
 
+    <!-- 1. Incluye la biblioteca qwebchannel.js -->
+    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+
     <script>
+        // 2. Inicializa el canal y crea el objeto pybridge
+        window.onload = function() {
+            new QWebChannel(qt.webChannelTransport, function(channel) {
+                // Exponemos el objeto 'pybridge' a nivel global para que el resto del script pueda usarlo
+                window.pybridge = channel.objects.pybridge;
+                console.log("pybridge inicializado correctamente.");
+            });
+        };
+
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
