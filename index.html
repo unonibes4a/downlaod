@@ -378,18 +378,11 @@
         </div>
     </div>
 
-    <!-- 1. Incluye la biblioteca qwebchannel.js -->
-    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
-
     <script>
-        // 2. Inicializa el canal y crea el objeto pybridge
-        window.onload = function() {
-            new QWebChannel(qt.webChannelTransport, function(channel) {
-                // Exponemos el objeto 'pybridge' a nivel global para que el resto del script pueda usarlo
-                window.pybridge = channel.objects.pybridge;
-                console.log("pybridge inicializado correctamente.");
-            });
-        };
+        // Esperar a que pywebview.api esté disponible
+        window.addEventListener('pywebviewready', function() {
+            console.log("pywebview.api inicializado correctamente.");
+        });
 
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(content => {
@@ -425,13 +418,7 @@
             showMessage('youtubeMessage', 'Downloading...', 'success');
 
             try {
-                const request = {
-                    function: 'download_youtube_video',
-                    args: [url, quality, downloadPlaylist],
-                    kwargs: {}
-                };
-                const resultString = await pybridge.py_call(JSON.stringify(request));
-                const result = JSON.parse(resultString);
+                const result = await pywebview.api.download_youtube_video(url, quality, downloadPlaylist);
 
                 if (result.success) {
                     showMessage('youtubeMessage', `${result.message}`, 'success');
@@ -446,13 +433,7 @@
 
         async function startAudioRecording() {
             try {
-                const request = {
-                    function: 'start_audio_recording',
-                    args: [],
-                    kwargs: {}
-                };
-                const resultString = await pybridge.py_call(JSON.stringify(request));
-                const result = JSON.parse(resultString);
+                const result = await pywebview.api.start_audio_recording();
 
                 if (result.success) {
                     document.getElementById('audioRecordingIndicator').classList.add('show');
@@ -469,13 +450,7 @@
 
         async function pauseAudioRecording() {
             try {
-                const request = {
-                    function: 'pause_audio_recording',
-                    args: [],
-                    kwargs: {}
-                };
-                const resultString = await pybridge.py_call(JSON.stringify(request));
-                const result = JSON.parse(resultString);
+                const result = await pywebview.api.pause_audio_recording();
 
                 if (result.success) {
                     if (result.paused) {
@@ -496,13 +471,7 @@
 
         async function stopAudioRecording() {
             try {
-                const request = {
-                    function: 'stop_audio_recording',
-                    args: [],
-                    kwargs: {}
-                };
-                const resultString = await pybridge.py_call(JSON.stringify(request));
-                const result = JSON.parse(resultString);
+                const result = await pywebview.api.stop_audio_recording();
 
                 document.getElementById('audioRecordingIndicator').classList.remove('show');
                 document.getElementById('pauseAudioBtn').textContent = 'Pause';
@@ -520,13 +489,7 @@
 
         async function startScreenRecording() {
             try {
-                const request = {
-                    function: 'start_screen_recording',
-                    args: [],
-                    kwargs: {}
-                };
-                const resultString = await pybridge.py_call(JSON.stringify(request));
-                const result = JSON.parse(resultString);
+                const result = await pywebview.api.start_screen_recording();
 
                 if (result.success) {
                     document.getElementById('screenRecordingIndicator').classList.add('show');
@@ -543,13 +506,7 @@
 
         async function pauseScreenRecording() {
             try {
-                const request = {
-                    function: 'pause_screen_recording',
-                    args: [],
-                    kwargs: {}
-                };
-                const resultString = await pybridge.py_call(JSON.stringify(request));
-                const result = JSON.parse(resultString);
+                const result = await pywebview.api.pause_screen_recording();
 
                 if (result.success) {
                     if (result.paused) {
@@ -570,13 +527,7 @@
 
         async function stopScreenRecording() {
             try {
-                const request = {
-                    function: 'stop_screen_recording',
-                    args: [],
-                    kwargs: {}
-                };
-                const resultString = await pybridge.py_call(JSON.stringify(request));
-                const result = JSON.parse(resultString);
+                const result = await pywebview.api.stop_screen_recording();
 
                 document.getElementById('screenRecordingIndicator').classList.remove('show');
                 document.getElementById('pauseScreenBtn').textContent = 'Pause';
@@ -593,12 +544,7 @@
         }
 
         function goBack() {
-            const request = {
-                function: 'go_back_to_menu',
-                args: [],
-                kwargs: {}
-            };
-            pybridge.py_call(JSON.stringify(request));
+            pywebview.api.go_back_to_menu();
         }
 
         document.getElementById('videoUrl').addEventListener('keypress', function (e) {
