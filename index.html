@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> </title>
+    <title>Giovanni Tools</title>
     <style>
         * {
             margin: 4px 4px 4px 4px;
@@ -294,49 +293,47 @@
 </head>
 
 <body>
-    <button class="back-button" onclick="goBack()">← Return to Menu</button>
+    <button class="back-button" onclick="goBack()">Return to Menu</button>
 
     <div class="container">
-        <h2>This page is free of fascism; nobody is spying on you or controlling your data.</h2>
+        <h2>Giovanni Multimedia Suite</h2>
         <br>
 
         <div class="tabs">
-            <button class="tab active" onclick="switchTab('youtube')">YouT</button>
-            <button class="tab" onclick="switchTab('audio')">Record Audio</button>
-            <button class="tab" onclick="switchTab('screen')">Record Screen</button>
+            <button class="tab active" onclick="switchTab('youtube')">YouTube</button>
+            <button class="tab" onclick="switchTab('audio')">Audio Recorder</button>
+            <button class="tab" onclick="switchTab('screen')">Screen Recorder</button>
         </div>
 
-        <!-- TAB: YouTube -->
         <div class="tab-content active" id="youtube">
             <div class="input-group">
-                <label for="videoUrl">YouT Video URL:</label>
+                <label for="videoUrl">YouTube Video URL:</label>
                 <input type="text" id="videoUrl" placeholder="https://www.youtube.com/watch?v=...">
             </div>
 
             <div class="checkbox-group">
                 <input type="checkbox" id="downloadPlaylist">
-                <label for="downloadPlaylist" style="margin: 0;">Download the entire playlist (if it is a list)</label>
+                <label for="downloadPlaylist" style="margin: 0;">Download entire playlist</label>
             </div>
 
             <div class="input-group">
                 <label for="quality">Quality:</label>
                 <select id="quality">
-                    <option value="best">Best quality available (Video + Audio)</option>
-                    <option value="1080p">1080p Full HD (Video + Audio)</option>
-                    <option value="720p">720p HD (Video + Audio)</option>
-                    <option value="480p">480p SD (Video + Audio)</option>
+                    <option value="best">Best available (MP4)</option>
+                    <option value="1080p">1080p Full HD (MP4)</option>
+                    <option value="720p">720p HD (MP4)</option>
+                    <option value="480p">480p SD (MP4)</option>
                     <option value="audio">Audio Only (MP3)</option>
                 </select>
             </div>
 
             <div class="button-group">
-                <button class="btn-primary" onclick="downloadVideo()">Download</button>
+                <button class="btn-primary" onclick="downloadVideo()">Download MP4</button>
             </div>
 
             <div class="message" id="youtubeMessage"></div>
         </div>
 
-        <!-- TAB: Record Audio -->
         <div class="tab-content" id="audio">
             <div class="recording-indicator" id="audioRecordingIndicator">
                 <span class="recording-dot"></span>
@@ -344,21 +341,20 @@
             </div>
 
             <div class="recorder-item">
-                <h3></h3>
+                <h3>System Audio Recorder (MP3)</h3>
                 <p style="color: #666; margin-bottom: 15px;">
-                    save audio system
+                    Record system audio and save as MP3.
                 </p>
                 <div class="button-group">
-                    <button class="btn-success" onclick="startAudioRecording()">▶️ init save</button>
-                    <button class="btn-primary" onclick="pauseAudioRecording()" id="pauseAudioBtn">⏸️ Pause</button>
-                    <button class="btn-danger" onclick="stopAudioRecording()">⏹️ stop save</button>
+                    <button class="btn-success" onclick="startAudioRecording()">Start</button>
+                    <button class="btn-primary" onclick="pauseAudioRecording()" id="pauseAudioBtn">Pause</button>
+                    <button class="btn-danger" onclick="stopAudioRecording()">Stop</button>
                 </div>
             </div>
 
             <div class="message" id="audioMessage"></div>
         </div>
 
-        <!-- TAB: Record Screen -->
         <div class="tab-content" id="screen">
             <div class="recording-indicator" id="screenRecordingIndicator">
                 <span class="recording-dot"></span>
@@ -366,14 +362,14 @@
             </div>
 
             <div class="recorder-item">
-                <h3>Record Screen (MP4)</h3>
+                <h3>Screen Recorder (MP4)</h3>
                 <p style="color: #666; margin-bottom: 15px;">
-                    Record everything that happens on your screen in MP4 video.
+                    Record screen and system audio to MP4.
                 </p>
                 <div class="button-group">
-                    <button class="btn-success" onclick="startScreenRecording()">▶️ Start Recording</button>
-                    <button class="btn-primary" onclick="pauseScreenRecording()" id="pauseScreenBtn">⏸️ Pause</button>
-                    <button class="btn-danger" onclick="stopScreenRecording()">⏹️ Stop and Save</button>
+                    <button class="btn-success" onclick="startScreenRecording()">Start</button>
+                    <button class="btn-primary" onclick="pauseScreenRecording()" id="pauseScreenBtn">Pause</button>
+                    <button class="btn-danger" onclick="stopScreenRecording()">Stop</button>
                 </div>
             </div>
 
@@ -403,21 +399,26 @@
             }, 5000);
         }
 
-        // === YOUTUBE ===
         async function downloadVideo() {
             const url = document.getElementById('videoUrl').value.trim();
             const quality = document.getElementById('quality').value;
             const downloadPlaylist = document.getElementById('downloadPlaylist').checked;
 
             if (!url) {
-                showMessage('youtubeMessage', 'Por favor ingresa una URL', 'error');
+                showMessage('youtubeMessage', 'Please enter a URL', 'error');
                 return;
             }
 
-            showMessage('youtubeMessage', '⏳ Descargando...', 'success');
+            showMessage('youtubeMessage', 'Downloading...', 'success');
 
             try {
-                const result = await pywebview.api.download_youtube_video(url, quality, downloadPlaylist);
+                const request = {
+                    function: 'download_youtube_video',
+                    args: [url, quality, downloadPlaylist],
+                    kwargs: {}
+                };
+                const resultString = await pybridge.py_call(JSON.stringify(request));
+                const result = JSON.parse(resultString);
 
                 if (result.success) {
                     showMessage('youtubeMessage', `${result.message}`, 'success');
@@ -425,56 +426,73 @@
                     showMessage('youtubeMessage', 'Error: ' + result.error, 'error');
                 }
             } catch (error) {
-                showMessage('youtubeMessage', 'Error al descargar el video', 'error');
+                showMessage('youtubeMessage', 'Error downloading video', 'error');
                 console.error(error);
             }
         }
 
-        // === AUDIO RECORDING ===
         async function startAudioRecording() {
             try {
-                const result = await pywebview.api.start_audio_recording();
+                const request = {
+                    function: 'start_audio_recording',
+                    args: [],
+                    kwargs: {}
+                };
+                const resultString = await pybridge.py_call(JSON.stringify(request));
+                const result = JSON.parse(resultString);
 
                 if (result.success) {
                     document.getElementById('audioRecordingIndicator').classList.add('show');
-                    document.getElementById('pauseAudioBtn').textContent = '⏸️ Pause';
-                    showMessage('audioMessage', 'Grabación de audio iniciada', 'success');
+                    document.getElementById('pauseAudioBtn').textContent = 'Pause';
+                    showMessage('audioMessage', 'Audio recording started', 'success');
                 } else {
                     showMessage('audioMessage', result.error, 'error');
                 }
             } catch (error) {
-                showMessage('audioMessage', 'Error al iniciar grabación', 'error');
+                showMessage('audioMessage', 'Error starting recording', 'error');
                 console.error(error);
             }
         }
 
         async function pauseAudioRecording() {
             try {
-                const result = await pywebview.api.pause_audio_recording();
+                const request = {
+                    function: 'pause_audio_recording',
+                    args: [],
+                    kwargs: {}
+                };
+                const resultString = await pybridge.py_call(JSON.stringify(request));
+                const result = JSON.parse(resultString);
 
                 if (result.success) {
                     if (result.paused) {
-                        document.getElementById('pauseAudioBtn').textContent = '▶️ Resume';
-                        showMessage('audioMessage', '⏸️ Grabación pausada', 'success');
+                        document.getElementById('pauseAudioBtn').textContent = 'Resume';
+                        showMessage('audioMessage', 'Recording paused', 'success');
                     } else {
-                        document.getElementById('pauseAudioBtn').textContent = '⏸️ Pause';
-                        showMessage('audioMessage', '▶️ Grabación reanudada', 'success');
+                        document.getElementById('pauseAudioBtn').textContent = 'Pause';
+                        showMessage('audioMessage', 'Recording resumed', 'success');
                     }
                 } else {
                     showMessage('audioMessage', result.error, 'error');
                 }
             } catch (error) {
-                showMessage('audioMessage', 'Error al pausar grabación', 'error');
+                showMessage('audioMessage', 'Error pausing recording', 'error');
                 console.error(error);
             }
         }
 
         async function stopAudioRecording() {
             try {
-                const result = await pywebview.api.stop_audio_recording();
+                const request = {
+                    function: 'stop_audio_recording',
+                    args: [],
+                    kwargs: {}
+                };
+                const resultString = await pybridge.py_call(JSON.stringify(request));
+                const result = JSON.parse(resultString);
 
                 document.getElementById('audioRecordingIndicator').classList.remove('show');
-                document.getElementById('pauseAudioBtn').textContent = '⏸️ Pause';
+                document.getElementById('pauseAudioBtn').textContent = 'Pause';
 
                 if (result.success) {
                     showMessage('audioMessage', `${result.message}`, 'success');
@@ -482,73 +500,94 @@
                     showMessage('audioMessage', result.error, 'error');
                 }
             } catch (error) {
-                showMessage('audioMessage', 'Error al detener grabación', 'error');
+                showMessage('audioMessage', 'Error stopping recording', 'error');
                 console.error(error);
             }
         }
 
-        // === SCREEN RECORDING ===
         async function startScreenRecording() {
             try {
-                const result = await pywebview.api.start_screen_recording();
+                const request = {
+                    function: 'start_screen_recording',
+                    args: [],
+                    kwargs: {}
+                };
+                const resultString = await pybridge.py_call(JSON.stringify(request));
+                const result = JSON.parse(resultString);
 
                 if (result.success) {
                     document.getElementById('screenRecordingIndicator').classList.add('show');
-                    document.getElementById('pauseScreenBtn').textContent = '⏸️ Pause';
-                    showMessage('screenMessage', 'Grabación de pantalla iniciada', 'success');
+                    document.getElementById('pauseScreenBtn').textContent = 'Pause';
+                    showMessage('screenMessage', 'Screen recording started', 'success');
                 } else {
                     showMessage('screenMessage', result.error, 'error');
                 }
             } catch (error) {
-                showMessage('screenMessage', 'Error al iniciar grabación', 'error');
+                showMessage('screenMessage', 'Error starting recording', 'error');
                 console.error(error);
             }
         }
 
         async function pauseScreenRecording() {
             try {
-                const result = await pywebview.api.pause_screen_recording();
+                const request = {
+                    function: 'pause_screen_recording',
+                    args: [],
+                    kwargs: {}
+                };
+                const resultString = await pybridge.py_call(JSON.stringify(request));
+                const result = JSON.parse(resultString);
 
                 if (result.success) {
                     if (result.paused) {
-                        document.getElementById('pauseScreenBtn').textContent = '▶️ Resume';
-                        showMessage('screenMessage', '⏸️ Grabación pausada', 'success');
+                        document.getElementById('pauseScreenBtn').textContent = 'Resume';
+                        showMessage('screenMessage', 'Recording paused', 'success');
                     } else {
-                        document.getElementById('pauseScreenBtn').textContent = '⏸️ Pause';
-                        showMessage('screenMessage', '▶️ Grabación reanudada', 'success');
+                        document.getElementById('pauseScreenBtn').textContent = 'Pause';
+                        showMessage('screenMessage', 'Recording resumed', 'success');
                     }
                 } else {
                     showMessage('screenMessage', result.error, 'error');
                 }
             } catch (error) {
-                showMessage('screenMessage', 'Error al pausar grabación', 'error');
+                showMessage('screenMessage', 'Error pausing recording', 'error');
                 console.error(error);
             }
         }
 
         async function stopScreenRecording() {
             try {
-                const result = await pywebview.api.stop_screen_recording();
+                const request = {
+                    function: 'stop_screen_recording',
+                    args: [],
+                    kwargs: {}
+                };
+                const resultString = await pybridge.py_call(JSON.stringify(request));
+                const result = JSON.parse(resultString);
 
                 document.getElementById('screenRecordingIndicator').classList.remove('show');
-                document.getElementById('pauseScreenBtn').textContent = '⏸️ Pause';
+                document.getElementById('pauseScreenBtn').textContent = 'Pause';
 
                 if (result.success) {
-                    showMessage('screenMessage', 'Grabación guardada exitosamente', 'success');
+                    showMessage('screenMessage', 'Recording saved successfully', 'success');
                 } else {
                     showMessage('screenMessage', result.error, 'error');
                 }
             } catch (error) {
-                showMessage('screenMessage', 'Error al detener grabación', 'error');
+                showMessage('screenMessage', 'Error stopping recording', 'error');
                 console.error(error);
             }
         }
 
         function goBack() {
-            pywebview.api.go_back_to_menu();
+            const request = {
+                function: 'go_back_to_menu',
+                args: [],
+                kwargs: {}
+            };
+            pybridge.py_call(JSON.stringify(request));
         }
 
-        // Enter para descargar
         document.getElementById('videoUrl').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 downloadVideo();
